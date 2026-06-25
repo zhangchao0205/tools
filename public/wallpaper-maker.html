@@ -371,7 +371,7 @@ body{
     if(!images.length||!images[selectedIndex]){canvas.style.display='none';ph.style.display='';el('previewBody').classList.remove('has-preview');return}
     ph.style.display='none';canvas.style.display='';el('previewBody').classList.add('has-preview');
 
-    var dpr=window.devicePixelRatio||1, maxW=Math.min(760, window.innerWidth-400);
+    var dpr=window.devicePixelRatio||1, maxW=Math.min(760, Math.max(280, window.innerWidth-40));
     var scale=Math.min(1,maxW/out.w), dw=Math.round(out.w*scale), dh=Math.round(out.h*scale);
     canvas.width=dw*dpr;canvas.height=dh*dpr;
     canvas.style.width=dw+'px';canvas.style.height=dh+'px';
