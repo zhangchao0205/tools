@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="壁纸制作器">
+<meta name="theme-color" content="#7c3aed">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237c3aed'/%3E%3Ctext x='50' y='68' text-anchor='middle' fill='white' font-size='55'%3E🖼️%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237c3aed'/%3E%3Ctext x='50' y='68' text-anchor='middle' fill='white' font-size='55'%3E🖼️%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%E5%A3%81%E7%BA%B8%E5%88%B6%E4%BD%9C%E5%99%A8%22%2C%22short_name%22%3A%22%E5%A3%81%E7%BA%B8%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f8f7fc%22%2C%22theme_color%22%3A%22%237c3aed%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%253E%253Crect%20width%3D'100'%20height%3D'100'%20rx%3D'22'%20fill%3D'%237c3aed'%2F%253E%253Ctext%20x%3D'50'%20y%3D'68'%20text-anchor%3D'middle'%20fill%3D'white'%20font-size%3D'55'%253E%25F0%259F%2596%25BC%25EF%25B8%258F%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22100x100%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+<title>壁纸制作器</title>
+<style>
+:root {
+  --bg: #f8f7fc;
+  --surface: #ffffff;
+  --surface2: #f2f0f9;
+  --text: #6b6375;
+  --heading: #1e1833;
+  --border: #e8e5f0;
+  --accent: #7c3aed;
+  --accent2: #a78bfa;
+  --accent-bg: rgba(124,58,237,0.06);
+  --shadow-sm: 0 1px 2px rgba(30,24,51,0.04);
+  --shadow: 0 4px 24px rgba(30,24,51,0.06), 0 1px 2px rgba(30,24,51,0.04);
+  --shadow-lg: 0 12px 40px rgba(30,24,51,0.08), 0 4px 12px rgba(30,24,51,0.04);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 8px;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0d17;
+    --surface: #181521;
+    --surface2: #1f1b2e;
+    --text: #9d95b0;
+    --heading: #ede6ff;
+    --border: #2a253b;
+    --accent: #a78bfa;
+    --accent2: #c4b5fd;
+    --accent-bg: rgba(167,139,250,0.08);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+    --shadow: 0 4px 24px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.2);
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size:15px; line-height:1.55; color:var(--text); background:var(--bg);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124,58,237,0.04) 0%, transparent 70%),
+                    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(124,58,237,0.03) 0%, transparent 70%);
+  background-attachment: fixed;
+}
+.app{max-width:1100px;margin:0 auto;padding:36px 24px 64px}
+
+/* Header */
+.header{text-align:center;margin-bottom:36px;position:relative}
+.header .badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--accent-bg);color:var(--accent);font-size:12px;font-weight:600;
+  padding:4px 12px;border-radius:20px;margin-bottom:12px;letter-spacing:0.3px;
+}
+.header h1{
+  margin:0 0 8px;font-size:36px;font-weight:700;letter-spacing:-0.8px;color:var(--heading);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.header .subtitle{margin:0;font-size:15px;color:#78738a}
+
+/* Main layout */
+.main{display:flex;gap:32px;align-items:flex-start}
+.sidebar{flex:0 0 340px;display:flex;flex-direction:column;gap:14px}
+.preview-area{flex:1 1 auto;min-width:0;position:sticky;top:20px}
+
+/* Card base */
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:22px;box-shadow:var(--shadow-sm);transition: box-shadow var(--transition);
+}
+.card:hover{box-shadow:var(--shadow)}
+
+/* Dropzone */
+.dropzone{
+  border:2px dashed var(--border);border-radius:var(--radius);padding:36px 20px;
+  text-align:center;cursor:pointer;transition:all var(--transition);
+  background:var(--surface);position:relative;overflow:hidden;
+}
+.dropzone::before{
+  content:'';position:absolute;inset:0;opacity:0;transition:opacity var(--transition);
+  background: radial-gradient(circle at 50% 50%, rgba(124,58,237,0.04) 0%, transparent 70%);
+}
+.dropzone:hover::before,.dropzone.dragover::before{opacity:1}
+.dropzone:hover,.dropzone.dragover{border-color:var(--accent);box-shadow:var(--shadow);transform:translateY(-1px)}
+.dropzone.has-image{border-style:solid;padding:24px 20px}
+.drop{display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;z-index:1}
+.drop-icon-wrp{
+  width:56px;height:56px;border-radius:50%;background:var(--accent-bg);
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+  transition:transform var(--transition);
+}
+.dropzone:hover .drop-icon-wrp{transform:scale(1.08)}
+.drop-title{font-size:15px;font-weight:600;color:var(--heading)}
+.drop-sub{font-size:13px;color:#888894}
+
+/* Section label */
+.sec-label{
+  font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;
+  letter-spacing:0.8px;margin-bottom:10px;
+}
+
+/* Select & Input */
+.select{font-size:14px;padding:10px 12px;border-radius:var(--radius-xs);width:100%;
+  border:1px solid var(--border);background:var(--surface);color:var(--heading);
+  outline:none;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27%3E%3Cpath d=%27M2 4l4 4 4-4%27 stroke=%27%236b6375%27 fill=%27none%27 stroke-width=%271.5%27/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;
+  transition:border-color var(--transition),box-shadow var(--transition);
+}
+.select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,0.1);outline:none}
+.input{font-size:14px;padding:10px 12px;border-radius:var(--radius-xs);
+  border:1px solid var(--border);background:var(--surface);color:var(--heading);
+  outline:none;transition:border-color var(--transition),box-shadow var(--transition);
+}
+.input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,0.1)}
+.custom-size{display:flex;align-items:center;gap:10px;margin-top:8px}
+.custom-size .input{flex:1;min-width:0;text-align:center}
+.custom-size span{color:var(--text);font-weight:600;font-size:15px}
+
+/* Radio toggle */
+.toggle-group{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius-xs);overflow:hidden}
+.toggle-opt{flex:1;font-size:13px;padding:9px 12px;text-align:center;cursor:pointer;
+  color:var(--text);font-weight:500;background:var(--surface);
+  transition:all var(--transition);border:none;user-select:none;
+}
+.toggle-opt:hover:not(.active){background:var(--surface2)}
+.toggle-opt:first-child{border-right:1px solid var(--border)}
+.toggle-opt.active{background:var(--accent-bg);color:var(--accent);font-weight:600}
+.toggle-opt input{display:none}
+
+/* Slider */
+.slider-wrp{position:relative}
+.slider{width:100%;accent-color:var(--accent);height:6px}
+.slider-val{text-align:right;font-size:12px;font-weight:600;color:var(--accent);margin-top:4px}
+
+/* Color */
+.color-wrp{display:flex;align-items:center;gap:10px}
+.color-input{width:40px;height:40px;border-radius:50%;border:2px solid var(--border);cursor:pointer;
+  padding:0;background:none;transition:border-color var(--transition)}
+.color-input:hover{border-color:var(--accent)}
+.color-hex{font-size:14px;font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--heading)}
+
+/* Image list */
+.img-list-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.clear-btn{font-size:12px;padding:5px 14px;border:1px solid var(--border);border-radius:20px;
+  background:transparent;color:var(--text);cursor:pointer;transition:all var(--transition);font-weight:500}
+.clear-btn:hover{border-color:#e55;color:#e55;background:rgba(238,85,85,0.05)}
+.img-list{display:flex;flex-direction:column;gap:4px;max-height:260px;overflow-y:auto}
+.img-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-xs);
+  cursor:pointer;transition:all var(--transition);border:1px solid transparent}
+.img-item:hover{background:var(--surface2)}
+.img-item.selected{border-color:var(--accent);background:var(--accent-bg)}
+.thumb{width:40px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0;background:var(--surface2)}
+.item-name{flex:1;font-size:12px;font-weight:500;color:var(--heading);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px}
+.item-del{flex-shrink:0;width:22px;height:22px;border:none;border-radius:50%;
+  background:transparent;color:var(--text);cursor:pointer;font-size:11px;
+  display:flex;align-items:center;justify-content:center;transition:all var(--transition);opacity:0}
+.img-item:hover .item-del{opacity:1}
+.item-del:hover{background:#e55;color:#fff;opacity:1}
+
+/* Buttons */
+.btn{font-size:14px;font-weight:600;padding:12px 24px;border-radius:var(--radius-xs);border:none;
+  cursor:pointer;transition:all var(--transition);letter-spacing:0.2px}
+.btn-primary{background:var(--accent);color:#fff;width:100%;
+  box-shadow:0 2px 8px rgba(124,58,237,0.25)}
+.btn-primary:hover:not(:disabled){opacity:0.9;transform:translateY(-1px);box-shadow:0 4px 16px rgba(124,58,237,0.4)}
+.btn-primary:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--heading);border:1px solid var(--border);width:100%;font-size:13px}
+.btn-ghost:hover:not(:disabled){background:var(--surface2);border-color:var(--accent2)}
+.btn-group{display:flex;flex-direction:column;gap:8px}
+
+/* Preview */
+.preview-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow var(--transition);
+}
+.preview-card:hover{box-shadow:var(--shadow)}
+.preview-hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;
+  border-bottom:1px solid var(--border);background:var(--surface2)}
+.preview-hdr span{font-size:12px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:0.5px}
+.preview-hdr .res-tag{font-size:11px;padding:2px 8px;background:var(--accent-bg);color:var(--accent);
+  border-radius:12px;font-weight:600}
+.preview-body{display:flex;align-items:center;justify-content:center;min-height:420px;
+  background:var(--surface2);position:relative;border-radius: 0 0 var(--radius) var(--radius)}
+.preview-body::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(124,58,237,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(167,139,250,0.04) 0%, transparent 50%);
+}
+/* dark mode: darker bg for preview when no image */
+@media (prefers-color-scheme: dark) {
+  .preview-body{background:#0e0c18}
+  .preview-body::before{
+    background:
+      radial-gradient(circle at 20% 30%, rgba(124,58,237,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(167,139,250,0.05) 0%, transparent 50%);
+  }
+}
+.preview-placeholder{display:flex;flex-direction:column;align-items:center;gap:14px;
+  color:var(--text);font-size:15px;z-index:1}
+.preview-placeholder .ph-icon{font-size:72px;opacity:0.25;filter:grayscale(0.3)}
+.preview-body.has-preview{background:#0a0a0f}
+.preview-body.has-preview::before{display:none}
+.preview-canvas{display:block;max-width:100%;height:auto;position:relative;z-index:1}
+
+/* Responsive */
+@media (max-width:800px){
+  .main{flex-direction:column}.sidebar{flex:1 1 auto;width:100%}
+  .preview-area{position:static;width:100%}
+  .header h1{font-size:28px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="badge">✨ 批量处理 · 无需裁剪</div>
+    <h1>壁纸制作器</h1>
+    <p class="subtitle">将竖屏照片完美适配桌面分辨率，模糊填充背景，完整保留画面</p>
+  </header>
+
+  <main class="main">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <!-- Upload -->
+      <div class="dropzone" id="dropzone">
+        <div class="drop">
+          <div class="drop-icon-wrp">
+            <span class="drop-icon" id="dropIcon">📸</span>
+          </div>
+          <span class="drop-title" id="dropTitle">拖拽图片到这里</span>
+          <span class="drop-sub">或点击选择 · 支持多选</span>
+        </div>
+        <input type="file" accept="image/*" multiple hidden id="fileInput">
+      </div>
+
+      <!-- Image list -->
+      <div class="card" id="imageListCard" style="display:none">
+        <div class="img-list-hdr">
+          <span class="sec-label" id="imageCount">图片列表</span>
+          <button class="clear-btn" id="clearBtn">清空全部</button>
+        </div>
+        <div class="img-list" id="imageList"></div>
+      </div>
+
+      <!-- Settings card -->
+      <div class="card">
+        <span class="sec-label">目标分辨率</span>
+        <select class="select" id="preset" style="margin-bottom:8px">
+          <option value="1920x1080">1920 × 1080 · Full HD</option>
+          <option value="2560x1440">2560 × 1440 · 2K QHD</option>
+          <option value="3840x2160">3840 × 2160 · 4K UHD</option>
+          <option value="3440x1440">3440 × 1440 · UltraWide</option>
+          <option value="2560x1080">2560 × 1080 · UltraWide</option>
+          <option value="5120x1440">5120 × 1440 · Super UW</option>
+          <option value="custom">自定义尺寸</option>
+        </select>
+        <div class="custom-size" id="customSize" style="display:none">
+          <input type="number" class="input" id="customW" value="1920" placeholder="宽">
+          <span>×</span>
+          <input type="number" class="input" id="customH" value="1080" placeholder="高">
+        </div>
+
+        <span class="sec-label" style="margin-top:16px">背景填充</span>
+        <div class="toggle-group" style="margin-bottom:8px">
+          <label class="toggle-opt active" id="blurMode">
+            <input type="radio" name="bgMode" value="blur" checked> 模糊
+          </label>
+          <label class="toggle-opt" id="colorMode">
+            <input type="radio" name="bgMode" value="color"> 纯色
+          </label>
+        </div>
+
+        <div id="blurGroup">
+          <div class="slider-wrp">
+            <input type="range" class="slider" min="5" max="80" value="30" id="blurSlider">
+          </div>
+          <div class="slider-val" id="blurVal">30px</div>
+        </div>
+        <div id="colorGroup" style="display:none">
+          <div class="color-wrp">
+            <input type="color" class="color-input" value="#0d0d0d" id="bgColor">
+            <span class="color-hex" id="bgColorHex">#0d0d0d</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Download -->
+      <div class="btn-group" id="downloadGroup" style="display:none">
+        <button class="btn btn-primary" id="downloadAll">⬇ 下载全部</button>
+        <button class="btn btn-ghost" id="downloadSingle">仅下载当前</button>
+      </div>
+    </aside>
+
+    <!-- Preview -->
+    <section class="preview-area">
+      <div class="preview-card">
+        <div class="preview-hdr">
+          <span>预览</span>
+          <span class="res-tag" id="previewRes">1920 × 1080</span>
+        </div>
+        <div class="preview-body" id="previewBody">
+          <div class="preview-placeholder" id="placeholder">
+            <span class="ph-icon">🖼️</span>
+            <span id="placeholderText">拖拽或点击左侧上传图片</span>
+            <span style="font-size:12px;opacity:0.6">支持多选 · 批量导出 ZIP</span>
+          </div>
+          <canvas class="preview-canvas" id="previewCanvas" style="display:none"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  var images = [];
+  var selectedIndex = 0;
+
+  function truncName(name){return name.length>30?name.slice(0,14)+'…'+name.slice(-14):name}
+
+  function el(id){return document.getElementById(id)}
+
+  function getOutSize(){
+    var p=el('preset').value;
+    if(p==='custom') return {w:+el('customW').value||1920, h:+el('customH').value||1080};
+    var parts=p.split('x'); return {w:+parts[0], h:+parts[1]};
+  }
+  function getBgMode(){return document.querySelector('input[name="bgMode"]:checked').value}
+  function getBlur(){return +el('blurSlider').value}
+  function getBgColor(){return el('bgColor').value}
+
+  function renderWallpaper(img){
+    var out=getOutSize(), outW=out.w, outH=out.h;
+    var blur=getBlur(), mode=getBgMode(), color=getBgColor();
+    var c=document.createElement('canvas'); c.width=outW; c.height=outH;
+    var ctx=c.getContext('2d'), iw=img.naturalWidth, ih=img.naturalHeight;
+    if(mode==='blur'){
+      var cs=Math.max(outW/iw, outH/ih), bw=iw*cs, bh=ih*cs;
+      var off=document.createElement('canvas'); off.width=outW; off.height=outH;
+      off.getContext('2d').drawImage(img,(outW-bw)/2,(outH-bh)/2,bw,bh);
+      ctx.filter='blur('+blur+'px)'; ctx.drawImage(off,0,0); ctx.filter='none';
+    }else{ctx.fillStyle=color;ctx.fillRect(0,0,outW,outH)}
+    var fs=Math.min(outW/iw, outH/ih), fw=iw*fs, fh=ih*fs;
+    ctx.drawImage(img,(outW-fw)/2,(outH-fh)/2,fw,fh);
+    return c;
+  }
+
+  function updatePreview(){
+    var canvas=el('previewCanvas'), ph=el('placeholder');
+    var out=getOutSize();
+    el('previewRes').textContent=out.w+' × '+out.h;
+
+    if(!images.length||!images[selectedIndex]){canvas.style.display='none';ph.style.display='';el('previewBody').classList.remove('has-preview');return}
+    ph.style.display='none';canvas.style.display='';el('previewBody').classList.add('has-preview');
+
+    var dpr=window.devicePixelRatio||1, maxW=Math.min(760, window.innerWidth-400);
+    var scale=Math.min(1,maxW/out.w), dw=Math.round(out.w*scale), dh=Math.round(out.h*scale);
+    canvas.width=dw*dpr;canvas.height=dh*dpr;
+    canvas.style.width=dw+'px';canvas.style.height=dh+'px';
+    var ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.drawImage(renderWallpaper(images[selectedIndex].img),0,0,dw,dh);
+  }
+
+  function renderImageList(){
+    var list=el('imageList'), card=el('imageListCard'), cnt=el('imageCount');
+    var dropIcon=el('dropIcon'), dropTitle=el('dropTitle'), dz=el('dropzone');
+    var dlGroup=el('downloadGroup');
+
+    if(!images.length){
+      card.style.display='none';dlGroup.style.display='none';dz.classList.remove('has-image');
+      dropIcon.textContent='📸';dropTitle.textContent='拖拽图片到这里';return;
+    }
+    card.style.display='';dlGroup.style.display='';dz.classList.add('has-image');
+    dropIcon.textContent='✅';dropTitle.textContent='已选 '+images.length+' 张图片';
+    cnt.textContent='图片列表 · '+images.length;
+
+    list.innerHTML='';
+    images.forEach(function(item,i){
+      var d=document.createElement('div');
+      d.className='img-item'+(i===selectedIndex?' selected':'');
+      d.onclick=function(){selectedIndex=i;renderImageList();updatePreview()};
+      var img=document.createElement('img');img.src=item.img.src;img.className='thumb';img.alt=item.name;
+      var s=document.createElement('span');s.className='item-name';s.textContent=item.name;s.title=item.name;
+      var b=document.createElement('button');b.className='item-del';b.textContent='✕';b.title='移除';
+      b.onclick=function(e){e.stopPropagation();removeImage(i)};
+      d.appendChild(img);d.appendChild(s);d.appendChild(b);list.appendChild(d);
+    });
+    el('downloadAll').textContent='⬇ 下载全部（'+images.length+' 张）';
+    el('downloadSingle').textContent='仅下载当前 · '+truncName(images[selectedIndex].name);
+  }
+
+  function removeImage(i){
+    images.splice(i,1);
+    selectedIndex=Math.min(selectedIndex,images.length-1);
+    if(selectedIndex<0)selectedIndex=0;
+    renderImageList();updatePreview();
+  }
+
+  function loadFiles(files){
+    var valid=Array.from(files).filter(function(f){return f.type.startsWith('image/')});
+    if(!valid.length)return;
+    var n=valid.length,loaded=0;
+    valid.forEach(function(file){
+      var r=new FileReader();
+      r.onload=function(){
+        var img=new Image();
+        img.onload=function(){images.push({name:file.name,img:img});loaded++;if(loaded===n){renderImageList();updatePreview()}};
+        img.src=r.result;
+      };
+      r.readAsDataURL(file);
+    });
+  }
+
+  // Upload events
+  var dragCounter=0;
+  var dz=el('dropzone');
+  dz.onclick=function(){el('fileInput').click()};
+  dz.ondragenter=function(e){e.preventDefault();e.stopPropagation();dragCounter++;dz.classList.add('dragover')};
+  dz.ondragleave=function(e){e.preventDefault();e.stopPropagation();dragCounter--;if(dragCounter<=0){dragCounter=0;dz.classList.remove('dragover')}};
+  dz.ondragover=function(e){e.preventDefault();e.stopPropagation();e.dataTransfer.dropEffect='copy'};
+  dz.ondrop=function(e){e.preventDefault();e.stopPropagation();dragCounter=0;dz.classList.remove('dragover');if(e.dataTransfer.files.length)loadFiles(e.dataTransfer.files)};
+  document.body.ondragover=function(e){e.preventDefault();e.stopPropagation()};
+  document.body.ondrop=function(e){e.preventDefault();e.stopPropagation()};
+  el('fileInput').onchange=function(){if(this.files.length)loadFiles(this.files);this.value=''};
+
+  // Clear
+  el('clearBtn').onclick=function(){images=[];selectedIndex=0;renderImageList();updatePreview()};
+
+  // Preset
+  el('preset').onchange=function(){el('customSize').style.display=this.value==='custom'?'':'none';updatePreview()};
+  el('customW').oninput=updatePreview;el('customH').oninput=updatePreview;
+
+  // BG mode
+  el('blurMode').onclick=function(){
+    this.querySelector('input').checked=true;this.classList.add('active');el('colorMode').classList.remove('active');
+    el('blurGroup').style.display='';el('colorGroup').style.display='none';updatePreview();
+  };
+  el('colorMode').onclick=function(){
+    this.querySelector('input').checked=true;this.classList.add('active');el('blurMode').classList.remove('active');
+    el('blurGroup').style.display='none';el('colorGroup').style.display='';updatePreview();
+  };
+
+  // Blur
+  el('blurSlider').oninput=function(){el('blurVal').textContent=this.value+'px';updatePreview()};
+  el('bgColor').oninput=function(){el('bgColorHex').textContent=this.value;updatePreview()};
+
+  // Download single
+  el('downloadSingle').onclick=function(){
+    if(!images.length)return;
+    var item=images[selectedIndex],out=getOutSize();
+    renderWallpaper(item.img).toBlob(function(blob){
+      var url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.href=url;a.download=item.name.replace(/\.[^.]+$/,'')+'_wallpaper_'+out.w+'x'+out.h+'.png';
+      a.click();URL.revokeObjectURL(url);
+    },'image/png');
+  };
+
+  // Download all
+  el('downloadAll').onclick=function(){
+    if(!images.length)return;
+    var out=getOutSize(),total=images.length,idx=0;
+    function next(){
+      if(idx>=total) return;
+      var item=images[idx];
+      renderWallpaper(item.img).toBlob(function(blob){
+        var url=URL.createObjectURL(blob),a=document.createElement('a');
+        a.href=url;a.download=item.name.replace(/\.[^.]+$/,'')+'_wallpaper_'+out.w+'x'+out.h+'.png';
+        a.click();URL.revokeObjectURL(url);
+        idx++;
+        if(idx<total) setTimeout(next,200);
+      },'image/png');
+    }
+    next();
+  };
+
+  // Handle resize
+  window.addEventListener('resize', updatePreview);
+
+  // PWA: register service worker
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  }
+})();
+</script>
+</body>
+</html>
