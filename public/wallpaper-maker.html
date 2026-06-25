@@ -345,19 +345,21 @@ body{
   function getBlur(){return +el('blurSlider').value}
   function getBgColor(){return el('bgColor').value}
 
-  function renderWallpaper(img){
+  function renderWallpaper(img, targetW, targetH){
     var out=getOutSize(), outW=out.w, outH=out.h;
+    targetW=targetW||outW; targetH=targetH||outH;
     var blur=getBlur(), mode=getBgMode(), color=getBgColor();
-    var c=document.createElement('canvas'); c.width=outW; c.height=outH;
+    var c=document.createElement('canvas'); c.width=targetW; c.height=targetH;
     var ctx=c.getContext('2d'), iw=img.naturalWidth, ih=img.naturalHeight;
+    var sc=Math.min(targetW/outW, targetH/outH);
     if(mode==='blur'){
-      var cs=Math.max(outW/iw, outH/ih), bw=iw*cs, bh=ih*cs;
-      var off=document.createElement('canvas'); off.width=outW; off.height=outH;
-      off.getContext('2d').drawImage(img,(outW-bw)/2,(outH-bh)/2,bw,bh);
-      ctx.filter='blur('+blur+'px)'; ctx.drawImage(off,0,0); ctx.filter='none';
-    }else{ctx.fillStyle=color;ctx.fillRect(0,0,outW,outH)}
-    var fs=Math.min(outW/iw, outH/ih), fw=iw*fs, fh=ih*fs;
-    ctx.drawImage(img,(outW-fw)/2,(outH-fh)/2,fw,fh);
+      var cs=Math.max(outW/iw, outH/ih), bw=iw*cs*sc, bh=ih*cs*sc;
+      var off=document.createElement('canvas'); off.width=targetW; off.height=targetH;
+      off.getContext('2d').drawImage(img,(targetW-bw)/2,(targetH-bh)/2,bw,bh);
+      ctx.filter='blur('+(blur*sc)+'px)'; ctx.drawImage(off,0,0); ctx.filter='none';
+    }else{ctx.fillStyle=color;ctx.fillRect(0,0,targetW,targetH)}
+    var fs=Math.min(outW/iw, outH/ih)*sc, fw=iw*fs, fh=ih*fs;
+    ctx.drawImage(img,(targetW-fw)/2,(targetH-fh)/2,fw,fh);
     return c;
   }
 
@@ -374,7 +376,7 @@ body{
     canvas.width=dw*dpr;canvas.height=dh*dpr;
     canvas.style.width=dw+'px';canvas.style.height=dh+'px';
     var ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
-    ctx.drawImage(renderWallpaper(images[selectedIndex].img),0,0,dw,dh);
+    ctx.drawImage(renderWallpaper(images[selectedIndex].img, dw, dh),0,0);
   }
 
   function renderImageList(){
@@ -456,9 +458,10 @@ body{
     el('blurGroup').style.display='none';el('colorGroup').style.display='';updatePreview();
   };
 
-  // Blur
-  el('blurSlider').oninput=function(){el('blurVal').textContent=this.value+'px';updatePreview()};
-  el('bgColor').oninput=function(){el('bgColorHex').textContent=this.value;updatePreview()};
+  // Blur (debounced for mobile performance)
+  var blurTimer;
+  el('blurSlider').oninput=function(){el('blurVal').textContent=this.value+'px';clearTimeout(blurTimer);blurTimer=setTimeout(updatePreview,100)};
+  el('bgColor').oninput=function(){el('bgColorHex').textContent=this.value;clearTimeout(blurTimer);blurTimer=setTimeout(updatePreview,100)};
 
   // Download single
   el('downloadSingle').onclick=function(){
