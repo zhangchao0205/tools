@@ -345,6 +345,20 @@ body{
   function getBlur(){return +el('blurSlider').value}
   function getBgColor(){return el('bgColor').value}
 
+  function applyBlur(ctx, srcCanvas, radius){
+    // Try native canvas filter first
+    if(typeof ctx.filter !== 'undefined'){
+      try{ctx.filter='blur('+radius+'px)';ctx.drawImage(srcCanvas,0,0);ctx.filter='none';return}catch(e){}
+    }
+    // Fallback: scale down then back up (cheap blur)
+    var w=srcCanvas.width, h=srcCanvas.height;
+    var s=Math.max(1, Math.floor(radius/8));
+    var tmp=document.createElement('canvas');tmp.width=Math.floor(w/s);tmp.height=Math.floor(h/s);
+    tmp.getContext('2d').drawImage(srcCanvas,0,0,tmp.width,tmp.height);
+    ctx.imageSmoothingEnabled=false;
+    ctx.drawImage(tmp,0,0,w,h);
+  }
+
   function renderWallpaper(img, targetW, targetH){
     var out=getOutSize(), outW=out.w, outH=out.h;
     targetW=targetW||outW; targetH=targetH||outH;
@@ -356,7 +370,7 @@ body{
       var cs=Math.max(outW/iw, outH/ih), bw=iw*cs*sc, bh=ih*cs*sc;
       var off=document.createElement('canvas'); off.width=targetW; off.height=targetH;
       off.getContext('2d').drawImage(img,(targetW-bw)/2,(targetH-bh)/2,bw,bh);
-      ctx.filter='blur('+(blur*sc)+'px)'; ctx.drawImage(off,0,0); ctx.filter='none';
+      applyBlur(ctx, off, blur*sc);
     }else{ctx.fillStyle=color;ctx.fillRect(0,0,targetW,targetH)}
     var fs=Math.min(outW/iw, outH/ih)*sc, fw=iw*fs, fh=ih*fs;
     ctx.drawImage(img,(targetW-fw)/2,(targetH-fh)/2,fw,fh);
