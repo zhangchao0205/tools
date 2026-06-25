@@ -346,16 +346,26 @@ body{
   function getBgColor(){return el('bgColor').value}
 
   function applyBlur(ctx, srcCanvas, radius){
-    // Try native canvas filter first
+    // Try native canvas filter first (supported in Chrome, Safari 14.4+, Edge, Firefox 117+)
     if(typeof ctx.filter !== 'undefined'){
       try{ctx.filter='blur('+radius+'px)';ctx.drawImage(srcCanvas,0,0);ctx.filter='none';return}catch(e){}
     }
-    // Fallback: scale down then back up (cheap blur)
+    // Fallback: scale down → multiple offset draws → scale up
     var w=srcCanvas.width, h=srcCanvas.height;
-    var s=Math.max(1, Math.floor(radius/8));
-    var tmp=document.createElement('canvas');tmp.width=Math.floor(w/s);tmp.height=Math.floor(h/s);
-    tmp.getContext('2d').drawImage(srcCanvas,0,0,tmp.width,tmp.height);
-    ctx.imageSmoothingEnabled=false;
+    var s=Math.max(1, Math.floor(radius/4)); // scale factor
+    var sw=Math.floor(w/s), sh=Math.floor(h/s);
+    var small=document.createElement('canvas');small.width=sw;small.height=sh;
+    var sctx=small.getContext('2d');sctx.drawImage(srcCanvas,0,0,sw,sh);
+    var r=radius/s;
+    var passes=Math.min(4, Math.ceil(r/8));
+    var tmp=document.createElement('canvas');tmp.width=sw;tmp.height=sh;
+    var tctx=tmp.getContext('2d');tctx.globalAlpha=1/(passes*2+1)/(passes*2+1);
+    for(var i=-passes;i<=passes;i++){
+      for(var j=-passes;j<=passes;j++){
+        tctx.drawImage(small, Math.round(i*r/passes), Math.round(j*r/passes), sw, sh);
+      }
+    }
+    tctx.globalAlpha=1;
     ctx.drawImage(tmp,0,0,w,h);
   }
 
