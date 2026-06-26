@@ -169,19 +169,30 @@ body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:15px;line
     valid.forEach(function(file){
       var url=URL.createObjectURL(file);
       var isVideo=file.type.startsWith('video/');
-      var elm;
+      var item={name:file.name,type:isVideo?'video':'image',url:url,element:null};
+      mediaItems.push(item);
+      var idx=mediaItems.length-1;
+      selectedSet.add(idx);
+
       if(isVideo){
-        elm=document.createElement('video');elm.src=url;elm.muted=true;elm.playsInline=true;elm.preload='metadata';
+        // generate thumbnail from video
+        var v=document.createElement('video');v.src=url;v.muted=true;v.playsInline=true;v.preload='metadata';
+        v.onloadedmetadata=function(){
+          v.currentTime=Math.min(1, v.duration/4);
+        };
+        v.onseeked=function(){
+          var c=document.createElement('canvas');c.width=v.videoWidth||160;c.height=v.videoHeight||90;
+          var ratio=(c.width/c.height)||(16/9);if(!c.width){c.width=160;c.height=Math.round(160/ratio)}
+          var ctx=c.getContext('2d');ctx.drawImage(v,0,0,c.width,c.height);
+          item.thumbUrl=c.toDataURL();item.element=v;
+          loaded++;if(loaded===n){renderGrid();updateUI()}
+        };
+        v.onerror=function(){item.thumbUrl=null;item.element=v;loaded++;if(loaded===n){renderGrid();updateUI()}};
       }else{
-        elm=document.createElement('img');elm.src=url;
+        var img=document.createElement('img');img.src=url;
+        img.onload=function(){item.thumbUrl=url;item.element=img;loaded++;if(loaded===n){renderGrid();updateUI()}};
+        img.onerror=function(){item.thumbUrl=null;item.element=img;loaded++;if(loaded===n){renderGrid();updateUI()}};
       }
-      elm.onloadedmetadata=elm.onload=function(){
-        loaded++;
-        if(loaded===n){renderGrid();updateUI()}
-      };
-      elm.onerror=function(){loaded++};
-      mediaItems.push({name:file.name,type:isVideo?'video':'image',url:url,element:elm});
-      selectedSet.add(mediaItems.length-1);
     });
     if(valid.length)renderGrid();
   }
@@ -191,7 +202,8 @@ body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:15px;line
     if(!mediaItems.length){$grid.innerHTML='<div class="empty-state"><div class="empty-icon">🖼️</div><div>选择照片和视频开始制作幻灯片</div></div>';return}
     var html='';
     mediaItems.forEach(function(item,i){
-      var tag=item.type==='video'?'<video src="'+item.url+'" muted playsinline preload="metadata"></video>':'<img src="'+item.url+'" loading="lazy">';
+      var src=item.thumbUrl||item.url;
+      var tag='<img src="'+src+'" loading="lazy">';
       var badge=item.type==='video'?'<div class="vid-badge">▶</div>':'';
       var sel=selectedSet.has(i)?' selected':'';
       var order=selectedSet.has(i)?'<div class="order">'+(Array.from(selectedSet).indexOf(i)+1)+'</div>':'';
