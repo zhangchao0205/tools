@@ -91,12 +91,12 @@ body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:15px;line
       <h1>📽️ 幻灯片播放器</h1>
       <span class="sel-count" id="selCount">未选择</span>
     </div>
-    <div class="upload-zone" id="uploadZone">
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
       <div class="upload-icon">📁</div>
       <div class="upload-text">选择照片或视频</div>
-      <div class="upload-hint">点击或拖拽 · 支持多选 · 可混选照片视频</div>
+      <div class="upload-hint">点击从相册选择</div>
     </div>
-    <input type="file" accept="image/*,video/*" multiple hidden id="fileInput">
+    <input type="file" accept="image/*,video/*" multiple id="fileInput" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0">
     <div class="media-grid" id="mediaGrid">
       <div class="empty-state">
         <div class="empty-icon">🖼️</div>
@@ -228,7 +228,6 @@ body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:15px;line
 
   // --- upload events ---
   var dz=el('uploadZone');
-  dz.onclick=function(){el('fileInput').click()};
   dz.ondragover=function(e){e.preventDefault();dz.classList.add('dragover')};
   dz.ondragleave=function(){dz.classList.remove('dragover')};
   dz.ondrop=function(e){e.preventDefault();dz.classList.remove('dragover');if(e.dataTransfer.files.length)loadFiles(e.dataTransfer.files)};
