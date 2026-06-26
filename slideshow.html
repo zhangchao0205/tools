@@ -135,6 +135,7 @@ body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:15px;line
       <button class="icon-btn" id="prevBtn" title="上一张">⏮</button>
       <button class="icon-btn" id="playPauseBtn" title="暂停">⏯</button>
       <button class="icon-btn" id="nextBtn" title="下一张">⏭</button>
+      <button class="icon-btn" id="fullscreenBtn" title="全屏">⛶</button>
     </div>
     <div class="progress-bar" id="progressBar"></div>
   </div>
@@ -267,10 +268,24 @@ body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:15px;line
       img.onload=function(){$playerMedia.appendChild(img);startPhotoTimer()};
       img.onerror=function(){nextMedia()};
     }else{
-      var vid=document.createElement('video');vid.src=item.url;vid.playsInline=true;vid.autoplay=true;
-      vid.onloadedmetadata=function(){$playerMedia.appendChild(vid);vid.play().catch(function(){startPhotoTimer()})};
-      vid.onended=onVideoEnd;
-      vid.onerror=function(){nextMedia()};
+      var vid=document.createElement('video');vid.src=item.url;
+      vid.playsInline=true;vid.muted=false;vid.autoplay=true;vid.controls=false;
+      vid.setAttribute('playsinline','');vid.setAttribute('webkit-playsinline','');
+      $playerMedia.appendChild(vid);
+      vid.onloadedmetadata=function(){
+        vid.play().then(function(){
+          $progress.style.width='0%';
+          var start=Date.now();
+          function vTick(){
+            if(!playing||paused){playerTimer=setTimeout(vTick,100);return}
+            var pct=Math.min(100,(Date.now()-start)/(vid.duration*1000)*100);
+            $progress.style.width=pct+'%';
+            playerTimer=setTimeout(vTick,200);
+          }
+          vTick();
+        }).catch(function(){startPhotoTimer()});
+      };
+      vid.onended=onVideoEnd;vid.onerror=function(){nextMedia()};
     }
   }
 
@@ -309,6 +324,10 @@ body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:15px;line
   el('prevBtn').onclick=prevMedia;
   el('nextBtn').onclick=nextMedia;
   el('playPauseBtn').onclick=togglePause;
+  el('fullscreenBtn').onclick=function(){
+    if(document.fullscreenElement){document.exitFullscreen()}
+    else{$player.requestFullscreen().catch(function(){})}
+  };
 
   // tap controls area (not buttons) to toggle pause
   $playerMedia.onclick=function(e){
