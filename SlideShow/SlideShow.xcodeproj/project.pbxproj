@@ -1,0 +1,183 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1BF23882EECDA8DADD14A999 /* SlideShowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F613A1A1568A7CF8D979E155 /* SlideShowApp.swift */;
+				DCB9789B743FD1F453202AC6 /* Assets.xcassets */; };
+		04A7814E4EEC70DE7D6C41B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCB9789B743FD1F453202AC6 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		80299006DE825F7A6BB18974 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B1078F628A3405AB693137A /* SlideShow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlideShow.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F613A1A1568A7CF8D979E155 /* SlideShowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideShowApp.swift; sourceTree = "<group>"; };
+		DCB9789B743FD1F453202AC6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		146B338DCE7CEF842DDA1F1F /* SlideShow */ = {
+			isa = PBXGroup;
+			children = (
+				F613A1A1568A7CF8D979E155 /* SlideShowApp.swift */,
+				80299006DE825F7A6BB18974 /* Info.plist */,
+			);
+			path = SlideShow;
+			sourceTree = "<group>";
+		};
+		15AAFBE1AEAEDE226F6D2191 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8B1078F628A3405AB693137A /* SlideShow.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2B731CEFC6751AAE0EC69B98 = {
+			isa = PBXGroup;
+			children = (
+				146B338DCE7CEF842DDA1F1F /* SlideShow */,
+				15AAFBE1AEAEDE226F6D2191 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		42AEFBAE01D2DFD981F7DA7D /* SlideShow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EEF0B44039EDB639024F3C9B /* Build configuration list for PBXNativeTarget "SlideShow" */;
+			buildPhases = (
+				0F78FE532035D122ED352DBA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SlideShow;
+			productName = SlideShow;
+			productReference = 8B1078F628A3405AB693137A /* SlideShow.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		63A9F0EA7BB98050796B649E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					42AEFBAE01D2DFD981F7DA7D = {
+						CreatedOnToolsVersion = 16.3;
+					};
+				};
+			};
+			buildConfigurationList = EEF0B44039EDB639024F3C9B /* Build configuration list for PBXNativeTarget "SlideShow" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "zh-Hans";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				"zh-Hans",
+			);
+			mainGroup = 2B731CEFC6751AAE0EC69B98;
+			productRefGroup = 15AAFBE1AEAEDE226F6D2191 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				42AEFBAE01D2DFD981F7DA7D /* SlideShow */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0F78FE532035D122ED352DBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04A7814E4EEC70DE7D6C41B1 /* Assets.xcassets in Resources */,
+				1BF23882EECDA8DADD14A999 /* SlideShowApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4BC6CB819B59402BD88A7C7F /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
+				04A7814E4EEC70DE7D6C41B1 /* Assets.xcassets in Resources */,
+			); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4B966BC7AACD3F34E542D370 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SlideShow/SlideShow.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SR233ZD483;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SlideShow/Info.plist; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0; MACOSX_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wp-maker-tools.slideshow2";
+				PRODUCT_NAME = SlideShow;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8B29F2DA1C077E07E14049AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SlideShow/SlideShow.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SR233ZD483;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SlideShow/Info.plist; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0; MACOSX_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wp-maker-tools.slideshow2";
+				PRODUCT_NAME = SlideShow;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EEF0B44039EDB639024F3C9B /* Build configuration list for PBXNativeTarget "SlideShow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B966BC7AACD3F34E542D370 /* Debug */,
+				8B29F2DA1C077E07E14049AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 63A9F0EA7BB98050796B649E /* Project object */;
+}

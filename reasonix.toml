@@ -1,0 +1,2 @@
+[permissions]
+allow = ["Bash(lsof -ti:5173 2>/dev/null | xargs kill 2>/dev/null; echo \"done\")", "Bash(ls /Users/chao/.ssh/ 2>/dev/null && echo \"---\" && cat /Users/chao/.ssh/id_ed25519.pub 2>/dev/null || echo \"no ed25519 pub\")"]
