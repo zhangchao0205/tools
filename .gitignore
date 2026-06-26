@@ -28,5 +28,6 @@ dist-ssr
 .playwright-mcp/
 reasonix.toml
 
-# Screenshots
-*.png
+# Screenshots (root level only)
+/*.png
+/*.jpg
